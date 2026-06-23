@@ -4,10 +4,10 @@ from PIL import Image
 from pytesseract import pytesseract
 
 
-
+# here we are checking the resume files docx or images and loading the content
 
 def load_resume_files(file_path):
-    print("============= inside the loading resume files using pymupdg4llmloader")
+    print("============= inside the loading resume files using markitdown============")
     # need to check the type of the folder or image 
     file_type = str(file_path).split(".")[1]
     try:
@@ -29,13 +29,13 @@ def load_resume_files(file_path):
     
 
 
-from langchain_community.document_loaders import PyPDFLoader
+# from langchain_community.document_loaders import PyPDFLoader
 
-def load_pdf(file_path):
-    # loader = PyMuPDF4LLMLoader(file_path)
-    # docs = loader.load()
-    # # need to add the time taking to extrac the resume 
-    # print(docs[0])
-    # return docs
-    loader = PyPDFLoader(file_path)
-    return loader.load()
+# def load_pdf(file_path):
+#     # loader = PyMuPDF4LLMLoader(file_path)
+#     # docs = loader.load()
+#     # # need to add the time taking to extrac the resume 
+#     # print(docs[0])
+#     # return docs
+#     loader = PyPDFLoader(file_path)
+#     return loader.load()

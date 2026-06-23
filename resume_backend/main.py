@@ -1,6 +1,7 @@
 from fastapi import FastAPI,File, UploadFile
 from src.utils.save_files import save_resume_files
-from src.utils.load_file import load_resume_files,load_pdf
+from src.utils.load_file import load_resume_files
+from src.parsers.parseresumetojson import ParseResume
 
 app = FastAPI()
 
@@ -26,7 +27,10 @@ def resume_uploader(file:UploadFile):
     saved_path = save_resume_files(file)
 
     # 3. loading the data , it will extract the content
-    data = load_resume_files(saved_path)
-    # data = load_pdf(saved_path)
+    resume_text = load_resume_files(saved_path)
+    
+    # 4. need to check the what i need to extract from the content
+    parser = ParseResume(resume_text)
+    res = parser.get_JSON()
 
-    return data
+    return res
