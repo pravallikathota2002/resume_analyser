@@ -1,7 +1,9 @@
 import os
 from dotenv import load_dotenv
-from src.vectorstore import FaissVectorStore
+from .vector_store import FaissVectorStore
 from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+load_dotenv()
 
 load_dotenv()
 
@@ -12,13 +14,13 @@ class RAGSearch:
         faiss_path = os.path.join(persist_dir, "faiss.index")
         meta_path = os.path.join(persist_dir, "metadata.pkl")
         if not (os.path.exists(faiss_path) and os.path.exists(meta_path)):
-            from data_loader import load_all_documents
+            from load_files import load_all_documents
             docs = load_all_documents("data")
             self.vectorstore.build_from_documents(docs)
         else:
             self.vectorstore.load()
         groq_api_key = ""
-        self.llm = ChatGroq(groq_api_key=groq_api_key, model_name=llm_model)
+        self.llm = ChatGroq(groq_api_key=os.getenv("groq_api_key"), model_name=os.getenv("model_name"))
         print(f"[INFO] Groq LLM initialized: {llm_model}")
 
     def search_and_summarize(self, query: str, top_k: int = 5) -> str:
@@ -31,9 +33,9 @@ class RAGSearch:
         response = self.llm.invoke([prompt])
         return response.content
 
-# Example usage
-if __name__ == "__main__":
-    rag_search = RAGSearch()
-    query = "What is attention mechanism?"
-    summary = rag_search.search_and_summarize(query, top_k=3)
-    print("Summary:", summary)
+# # Example usage
+# if __name__ == "__main__":
+#     rag_search = RAGSearch()
+#     query = "What is attention mechanism?"
+#     summary = rag_search.search_and_summarize(query, top_k=3)
+#     print("Summary:", summary)

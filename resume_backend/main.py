@@ -31,6 +31,8 @@ def resume_uploader(file:UploadFile):
     
     # 4. need to check the what i need to extract from the content
     parser = ParseResume(resume_text)
+
+    # we are getting the extracted text in json
     res = parser.get_JSON()
 
     return res

@@ -1,7 +1,10 @@
 from langchain_pymupdf4llm import PyMuPDF4LLMLoader
 from markitdown import MarkItDown
+from langchain_core.documents import Document
 from PIL import Image
 from pytesseract import pytesseract
+from ..rag.embeddings import EmbeddingPipeline
+from ..rag.vector_store import FaissVectorStore
 
 
 # here we are checking the resume files docx or images and loading the content
@@ -17,6 +20,15 @@ def load_resume_files(file_path):
             md = MarkItDown()
             result = md.convert(file_path)
             print(result)
+            text = result.text_content
+            docs = [
+                Document(page_content=text)
+            ]
+        
+            # after loading the data we can create embeddings and save in vector store here only for rag purpose
+            # every resume what ever the user uploading, while uploading only we are creating embeddings and saving in vector store
+            store = FaissVectorStore("faiss_store")
+            store.build_from_documents(docs)
             return result.text_content
         else:
             img = Image.open(file_path)
