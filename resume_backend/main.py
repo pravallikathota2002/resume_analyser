@@ -15,6 +15,8 @@ def read_item(item_id: int, q: str | None = None):
     return {"item_id": item_id, "q": q}
 
 
+
+# need to see how to check job desciption and resume cosine similarity, ats score
 @app.post("/uploadfile")
 def resume_uploader(file:UploadFile):
     # 1. get the file 
@@ -36,3 +38,7 @@ def resume_uploader(file:UploadFile):
     res = parser.get_JSON()
 
     return res
+
+
+
+# https://github.com/VirajsNexus/HireVoid

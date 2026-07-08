@@ -16,13 +16,21 @@ class ParseResume:
     def __init__(self, resume: str):
         self.resume_data = resume
         self.clean_data = TextCleaner.clean_text(self.resume_data)
-        self.entities = DataExtractor(self.clean_data).extract_entities()
+        # here we are passing cleaned data as input and passing to extract entities -- location and organisation
+        self.entities = DataExtractor(self.clean_data).extract_entities() 
+        # here we are getting  the names of the resume
         self.name = DataExtractor(self.clean_data[:30]).extract_names()
+        # here we are providing some experience sections to check the text and getting experience
         self.experience = DataExtractor(self.clean_data).extract_experience()
+        # here we are not passing cleaned data , we are passing resume data and getting emails --regex
         self.emails = DataExtractor(self.resume_data).extract_emails()
+        # same as emails and getting phone numbers using regex pattern
         self.phones = DataExtractor(self.resume_data).extract_phone_numbers()
+        # by using regex from cleaned data we are getting position and year
         self.years = DataExtractor(self.clean_data).extract_position_year()
+        # getting nouns and pronouns
         self.key_words = DataExtractor(self.clean_data).extract_particular_words()
+        # how much each noun and pronoun frequency-- pos
         self.pos_frequencies = CountFrequency(self.clean_data).count_frequency()
         self.keyterms = KeytermExtractor(self.clean_data).get_keyterms_based_on_sgrank()
         self.bi_grams = KeytermExtractor(self.clean_data).bi_gramchunker()
